@@ -1,0 +1,23 @@
+{
+    "manifest_version": 3,
+    "name": "Get Active Tab URL",
+    "version": "1.1",
+    "description": "Часть приложения 'Time Tracker' необходимая для получения данных о времени проведенном на разных url адресах",
+    
+    "action": {
+      "default_popup": "huindex.html",
+      "default_icon": "icon.png"
+    },
+
+    "permissions": [
+        "tabs", 
+        "storage", 
+        "activeTab", 
+        "identity", 
+        "identity.email"
+    ],
+
+    "background": {
+        "service_worker": "Fuck_chrome.js"
+    }
+}
