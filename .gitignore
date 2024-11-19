@@ -1,2 +1,6 @@
 /__pycache__
 /.vscode
+
+Client/__pycache__/
+
+minet_history.db
