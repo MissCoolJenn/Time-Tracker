@@ -6,18 +6,46 @@
     <title>Minet Tracker App</title>
 
     <script type="text/javascript" src="/eel.js"></script>
-    
-    <link rel="icon" type="image/png" href="dota2_2.png">
 
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="icon" type="image/png" href="css/img/dota2_2.png">
+
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <body>
-    <header>
-        <h2>Hello World)</h2>
-    </header>
     <main>
-        <p>zov</p>
-        <p>axaxaxaxaaa</p>
+        <div class="apps">
+            <p id="pidr_p">pidr</p>
+        </div>
+        <div class="chrome_1">
+
+        </div>
+        <div class="chrome_2">
+
+        </div>
     </main>
 </body>
+
+<script>
+    // Запрос на файл App.py к функции Get_data()
+    async function makeEelRequest() {
+        await eel.Get_data()().then((response) => {
+            // Если есть ответ - поменять текст на другой (ответ есть)
+            if (response) {
+                var q = document.getElementById('pidr_p');
+                q.textContent = 'plus in chat!';
+            }
+            else {
+                var q = document.getElementById('pidr_p');
+                q.title = 'none((';
+            };
+        });
+    };
+    
+
+    // Запуск запроса при загрузке страницы
+    window.onload = function() {
+        makeEelRequest();
+    };
+</script>
 </html>

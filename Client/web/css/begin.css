@@ -1,0 +1,19 @@
+.b-begin {
+    align-self: center;
+
+    
+
+    width: 150px;
+    height: 70px;
+
+    border: 0;
+    border-radius: 16px;
+
+    background-color: rgb(0, 0, 0);
+
+    color: aliceblue;
+    font-size: 20px;
+}
+.b-begin:hover {
+    background-color: rgb(26, 26, 26);
+}
