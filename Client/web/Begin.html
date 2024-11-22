@@ -18,7 +18,10 @@
     </button>
 
     <script>
-        function goTo_MainPage() {
+        async function goTo_MainPage() {
+            // Проверка существования и если бд нет - создание новой
+            await eel.Check_db()();
+
             // Переход на другую страницу
             window.location.href = "Main.html";
         }
