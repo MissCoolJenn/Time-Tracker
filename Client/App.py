@@ -1,4 +1,5 @@
 import sqlite3
+import json
 import eel
 import os
 
@@ -16,10 +17,10 @@ class Data():
         # Проверяем, существует ли файл базы данных
         if not os.path.exists(db_name):
             Data.Create_db()
-            print('new ok')
+            print('db is new ok')
             return 'new ok'
         else:
-            print('ok')
+            print('db is ok')
             return 'ok'
 
     @eel.expose
@@ -53,7 +54,22 @@ class Data():
 
     @eel.expose
     def Get_data():
-        return 'adfdgzdg'
+        conn = sqlite3.connect(db_name)
+        cursor = conn.cursor()
+
+        #cursor.execute('INSERT INTO apps (date, app) VALUES (?, ?)', ('Goida', '10101001'))
+        #cursor.execute('INSERT INTO apps (date, app) VALUES (?, ?)', ('VS Cock', '277777/2/2/3/4'))
+        #conn.commit()
+
+        cursor.execute('SELECT * FROM apps')
+
+        rows = cursor.fetchall() #[(1, '27.239.3982578', 'Telegram'), (2, '227.2.1', 'Google'), (3, '10101001', 'Goida')]
+        print(rows)
+
+        conn.close()
+
+        # Сворачивание списка в json (потому что js не может читать python списки)
+        return json.dumps([list(item) for item in rows])
 
     @eel.expose
     def Add_data():

@@ -14,26 +14,26 @@
 </head>
 <body>
     <main>
-        <div class="apps">
+        <div id="apps">
             <p id="pidr_p">pidr</p>
-        </div>
-        <div class="chrome_1">
-
-        </div>
-        <div class="chrome_2">
-
         </div>
     </main>
 </body>
 
 <script>
     // Запрос на файл App.py к функции Get_data()
-    async function makeEelRequest() {
+    async function MakeEelRequest() {
         await eel.Get_data()().then((response) => {
+            // Разворачивание json в js объект
+            const data = JSON.parse(response);
+            console.log(data);
+
             // Если есть ответ - поменять текст на другой (ответ есть)
-            if (response) {
+            if (data) {
                 var q = document.getElementById('pidr_p');
                 q.textContent = 'plus in chat!';
+
+                BuildList(data);
             }
             else {
                 var q = document.getElementById('pidr_p');
@@ -45,7 +45,35 @@
 
     // Запуск запроса при загрузке страницы
     window.onload = function() {
-        makeEelRequest();
+        MakeEelRequest();
     };
+
+    // Функция наполнения страницы данными из бд
+    async function BuildList(data) {
+        const mama = document.getElementById('apps')
+
+        for(var i = 0; i < data.length; i++) {
+            const new_div = document.createElement('div');
+
+            // Создаем содержимое
+            const appName = document.createTextNode(`App name: ${data[i][2]}`);
+            const dateText = document.createTextNode(`Date: ${data[i][1]}`);
+            const lineBreak = document.createElement('br');
+            
+            // Добавляем содержимое в новый div
+            new_div.appendChild(appName);
+            new_div.appendChild(lineBreak);
+            new_div.appendChild(dateText);
+
+            // Стили для нового элемента
+            new_div.style.padding = '10px';
+            new_div.style.border = '1px solid black';
+            new_div.style.borderRadius = '5px';
+            new_div.style.margin = '5px';
+
+            // Добавляем новый div в родительский элемент
+            mama.appendChild(new_div);
+        }
+    }
 </script>
 </html>
