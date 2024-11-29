@@ -37,6 +37,7 @@ function log_active_tab_url() {
     });
 }
 
+// Нахождение url и очистка его от лишних символов
 function re_url(url) {
     return new Promise((resolve, reject) => {
         // Если url начинается с 'https://' 
@@ -48,10 +49,14 @@ function re_url(url) {
         // chrome://history/
 
         if (match !== null) {
-            let match_s = match[0].replace(/^.+\/\//, '');  // Убирается начало htpps://
-            let match_e = match_s.replace(/\/$/, '');         // Убирается все что после .com
+            let match_s = match[0].replace(/^.+\/\//, '');   // Убирается начало htpps://
+            let match_e = match_s.replace(/\/$/, '');        // Убирается все что после .com
+            let match_f = match_e.replace(/^www./, '');      // Убирается www. что иногда присутствуют в начале
 
-            resolve(match_e); // Возвращаем чистый url
+            // www.youtube.com - дочистить в некоторых ссылках
+
+
+            resolve(match_f); // Возвращаем чистый url
         } 
         else {
             resolve("Некорректный URL"); // Или resolve(null) для мягкой обработки
@@ -59,9 +64,42 @@ function re_url(url) {
     });
 }
 
-function save_to_storage(url, time) {
-
-}
+//class Data {
+//    constructor() {
+//        return;
+//        // ПРИМЕР ДАТЫ:
+//        // {url}: [[2024:10:21, 640], [2024:10:22, 577]]
+//        //                      ^ Сколько мин была активна вкладка
+//        //              ^ День 
+//        //   ^ сслылка
+//    };
+//
+//    save(url, time) {
+//        // Если Url ещё раньше не сохранялся в БД
+//        if (chrome.storage.local.get(['url']) == undefined) {
+//            
+//        }
+//        else if () {
+//
+//        }
+//    };
+//
+//    rewhrite(url, delta_time) {
+//        return;
+//    };
+//
+//    get_today() {
+//        return;
+//    };
+//
+//    get_all() {
+//        return;
+//    };
+//
+//    delete(date) {
+//        return;
+//    };
+//};;
 
 
 // Солнце светит, негры пашут
