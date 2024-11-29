@@ -27,6 +27,7 @@ function log_active_tab_url() {
             const activeTab = tabs[0];
 
             if (activeTab) {
+                re_url(activeTab.url).then(console.log)
                 resolve(activeTab.url); // Возвращаем URL активной вкладки
             } 
             else {
@@ -34,6 +35,32 @@ function log_active_tab_url() {
             }
         });
     });
+}
+
+function re_url(url) {
+    return new Promise((resolve, reject) => {
+        // Если url начинается с 'https://' 
+        const match = url.match(/^https?:\/\/[^\/]+\/?/);
+
+        // https://www.youtube.com/watch?v=pfiCN...
+        // Https://claude.ai/chat/a3f74ee5...
+        // chrome://newtab/
+        // chrome://history/
+
+        if (match !== null) {
+            let match_s = match[0].replace(/^.+\/\//, '');  // Убирается начало htpps://
+            let match_e = match_s.replace(/\/$/, '');         // Убирается все что после .com
+
+            resolve(match_e); // Возвращаем чистый url
+        } 
+        else {
+            resolve("Некорректный URL"); // Или resolve(null) для мягкой обработки
+        }
+    });
+}
+
+function save_to_storage(url, time) {
+
 }
 
 
@@ -47,16 +74,11 @@ async function loop() {
     } 
     else {
         console.log("Данные пользователя и вкладки:", q);
-
-        // https://www.youtube.com/watch?v=pfiCN...
-        // Https://claude.ai/chat/a3f74ee5...
-        // chrome://newtab/
-        // chrome://history/
     }
 }
-// Начало кода и запуск рабкого цикла
+
+
+// Начало кода и запуск рабского цикла
 console.log('Hi)');
 
-
-
-setInterval(loop, 2000);
+setInterval(loop, 5000);
