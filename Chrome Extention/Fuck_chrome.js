@@ -19,6 +19,7 @@ function get_user_info() {
     });
 }
 
+
 // Проверка какая сейчас вкладка открыта в гугле
 function log_active_tab_url() {
     return new Promise((resolve) => {
@@ -27,7 +28,7 @@ function log_active_tab_url() {
             const activeTab = tabs[0];
 
             if (activeTab) {
-                re_url(activeTab.url).then(console.log)
+                re_url(activeTab.url)//.then(console.log)
                 resolve(activeTab.url); // Возвращаем URL активной вкладки
             } 
             else {
@@ -36,6 +37,7 @@ function log_active_tab_url() {
         });
     });
 }
+
 
 // Нахождение url и очистка его от лишних символов
 function re_url(url) {
@@ -55,14 +57,16 @@ function re_url(url) {
 
             // www.youtube.com - дочистить в некоторых ссылках
 
-
+            console.log(`Активная вкладка сейчас: ${match_f}`)
             resolve(match_f); // Возвращаем чистый url
         } 
         else {
-            resolve("Некорректный URL"); // Или resolve(null) для мягкой обработки
+            //resolve("Некорректный URL"); // Или resolve(null) для мягкой обработки
+            console.log("Некорректный URL");
         }
     });
 }
+
 
 //class Data {
 //    constructor() {
@@ -105,18 +109,31 @@ function re_url(url) {
 // Солнце светит, негры пашут
 // Цикл с асинхронной обработкой
 async function loop() {
-    const q = await get_user_info(); // Ждём получения информации
+    // Используем промисифицированную обёртку для `chrome.windows.getCurrent`.
+    const window = await new Promise((resolve) => {
+        chrome.windows.getCurrent({ populate: false }, resolve);
+    });
+    
+    // Окно активно 
+    if (window.focused) {
+        // Асинхронный вызов моего говна
+        //const q = await get_user_info(); // Ждём получения информации
+        //if (q[1] == 'NaN') {  // Проверка на NaN
+        //    console.log("Нет активной вкладки, пошел нахуй");
+        //} 
+        //else {
+        //    console.log("Данные пользователя и вкладки:", q);
+        //}
 
-    if (q[1] == 'NaN') {  // Проверка на NaN
-        console.log("Нет активной вкладки, пошел нахуй");
+        await get_user_info();
     } 
+    // Окно не активно 
     else {
-        console.log("Данные пользователя и вкладки:", q);
+        console.log("Окно неактивно... пока никто не видит z z z z ");
     }
 }
-
 
 // Начало кода и запуск рабского цикла
 console.log('Hi)');
 
-setInterval(loop, 5000);
+setInterval(loop, 1000);
