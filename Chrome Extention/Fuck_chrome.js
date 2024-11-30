@@ -68,42 +68,42 @@ function re_url(url) {
 }
 
 
-//class Data {
-//    constructor() {
-//        return;
-//        // ПРИМЕР ДАТЫ:
-//        // {url}: [[2024:10:21, 640], [2024:10:22, 577]]
-//        //                      ^ Сколько мин была активна вкладка
-//        //              ^ День 
-//        //   ^ сслылка
-//    };
-//
-//    save(url, time) {
-//        // Если Url ещё раньше не сохранялся в БД
-//        if (chrome.storage.local.get(['url']) == undefined) {
-//            
-//        }
-//        else if () {
-//
-//        }
-//    };
-//
-//    rewhrite(url, delta_time) {
-//        return;
-//    };
-//
-//    get_today() {
-//        return;
-//    };
-//
-//    get_all() {
-//        return;
-//    };
-//
-//    delete(date) {
-//        return;
-//    };
-//};;
+class Data {
+    constructor() {
+        return;
+        // ПРИМЕР ДАТЫ:
+        // {url}: [[2024:10:21, 640], [2024:10:22, 577]]
+        //                      ^ Сколько мин была активна вкладка
+        //              ^ День 
+        //   ^ сслылка
+    };
+
+    save(url, time) {
+        // Если Url ещё раньше не сохранялся в БД
+        if (chrome.storage.local.get(['url']) == undefined) {
+            
+        }
+        else {
+
+        }
+    };
+
+    rewhrite(url, delta_time) {
+        return;
+    };
+
+    get_today() {
+        return;
+    };
+
+    get_all() {
+        return;
+    };
+
+    delete(date) {
+        return;
+    };
+};;
 
 
 // Солнце светит, негры пашут
@@ -137,3 +137,15 @@ async function loop() {
 console.log('Hi)');
 
 setInterval(loop, 1000);
+
+// Восстановление задач после выхода из сна
+chrome.runtime.onStartup.addListener(() => {
+    console.log("Chrome started, restarting tasks...");
+    setInterval(loop, 1000);
+});
+  
+// Восстановление при повторном запуске расширения
+chrome.runtime.onInstalled.addListener(() => {
+    console.log("Extension installed/updated, starting tasks...");
+    setInterval(loop, 1000);
+});
