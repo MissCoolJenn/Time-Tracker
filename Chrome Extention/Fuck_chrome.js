@@ -137,44 +137,6 @@ class Save_url {
     };
 };
 
-// Класс для работы с БД хрома
-class Data {
-    constructor() {
-        return;
-        // ПРИМЕР ДАТЫ:
-        // "2024 10 21" = { "url": 6404, "url": 577 }
-        //                          ^ значение - Сколько сек была активна вкладка
-        //                    ^ ключ - Cслылка
-        //   ^ ключ - День
-    };
-
-    async save(url, time) {
-        // Если Url ещё раньше не сохранялся в БД
-        if (chrome.storage.local.get(['date']) == undefined) {
-            
-        }
-        else {
-
-        }
-    };
-
-    async rewhrite(url, delta_time) {
-        return;
-    };
-
-    async get_today() {
-        return;
-    };
-
-    async get_all() {
-        return;
-    };
-
-    async delete(date) {
-        return;
-    };
-};
-
 // Солнце светит, негры пашут
 async function loop(loop_time) {
     let chrome_active = await is_active_browser();
@@ -195,11 +157,6 @@ async function loop(loop_time) {
         console.log("Окно неактивно... пока никто не видит z z z z ");
     }
 }
-
-// Удаление полностью всех значений
-chrome.storage.local.clear(function() {
-    console.log('Хранилище очищено.');
-});
 
 let loop_time = 2000;
 // Начало кода и запуск рабского цикла
