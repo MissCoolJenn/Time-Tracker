@@ -78,7 +78,6 @@ async function page_elements(data_list) {
     })
 }
 
-
 async function biden() {
     // Получение даты
     let date = await get_date_now();
