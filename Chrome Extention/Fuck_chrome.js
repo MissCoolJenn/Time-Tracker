@@ -57,11 +57,11 @@ async function re_url(url) {
             let match_e = match_s.replace(/\/$/, '');          // Убирается все что после .com
             let match_f = match_e.replace(/^www./, '');        // Убирается www. что иногда присутствуют в начале
 
-            console.log(`Активная вкладка сейчас: ${match_f}`)
+            //console.log(`Активная вкладка сейчас: ${match_f}`)
             resolve(match_f);                                  // Возвращаем чистый url
         } 
         else {
-            console.log("Некорректный URL");
+            //sconsole.log("Некорректный URL");
         }
     });
 }
@@ -89,11 +89,11 @@ async function get_date_now() {
 class Save_url {
     async main(url, delta_s, date) {
         let key = `${date[1]} ${date[2]} ${date[3]}`;
-        console.log(`key: ${key}`);
+        //console.log(`key: ${key}`);
 
         // Получение словаря url за сегодня
         let urls_today = await this.get_storage(key);
-        console.log(`url_today_exist: ${JSON.stringify(urls_today)}`)
+        //console.log(`url_today_exist: ${JSON.stringify(urls_today)}`)
 
         // ПРИМЕР ДАТЫ:
         // "2024 10 21" = { url: 6404, url: 577 }
@@ -107,16 +107,16 @@ class Save_url {
         }
         // Добавление url в БД за сегодня
         else {
-            console.log('**Добавление url в БД за сегодня')
+            //console.log('**Добавление url в БД за сегодня')
             urls_today[url] = delta_s
         }
 
-        console.log(`urls_today после просчета времени: ${JSON.stringify(urls_today)}`);
+        //console.log(`urls_today после просчета времени: ${JSON.stringify(urls_today)}`);
 
         // Сохранение словаря url за сегодня обратно в БД
         let save_db = await this.set_storage(key, urls_today);
         if (save_db) {
-            console.log(`data saved is: ${save_db}`);
+            //console.log(`data saved is: ${save_db}`);
         }
     };
 
@@ -141,7 +141,7 @@ class Save_url {
 async function loop(loop_time) {
     let chrome_active = await is_active_browser();
 
-    console.log('\n\n')
+    //console.log('\n\n')
 
     if (chrome_active) {
         // Получение данных о url активной вкладки
@@ -154,7 +154,7 @@ async function loop(loop_time) {
         await new Save_url().main(user[1], loop_time/1000, date_now);
     } 
     else {
-        console.log("Окно неактивно... пока никто не видит z z z z ");
+        //console.log("Окно неактивно... пока никто не видит z z z z ");
     }
 }
 
@@ -171,5 +171,11 @@ chrome.runtime.onStartup.addListener(() => {
 // Восстановление при повторном запуске расширения
 chrome.runtime.onInstalled.addListener(() => {
     console.log("Обновление установлено, запуск потужностi...");
+    setInterval(() => loop(loop_time), loop_time);
+});
+
+// Перезапуск setInterval при выходе из сна
+chrome.runtime.onSuspendCanceled.addListener(() => {
+    console.log("Компьютер проснулся. Перезапуск цикла...");
     setInterval(() => loop(loop_time), loop_time);
 });
