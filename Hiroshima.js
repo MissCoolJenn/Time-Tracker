@@ -22,10 +22,22 @@ async function get_data(key) {
 async function recount_time(data) {
     return new Promise((resolve) => {
         // {"accounts.google.com":4,"epicgames.com":8,"github.com":48,"google.com":16,"nexusmods.com":102,"youtube.com":486}
-        let new_data = [];
-        let keys = Object.keys(data)
+        //let keys = Object.keys(data)
+
+        // Сортировка по времени от большего к меньшему (возват - список)
+        const sortedObj = Object.fromEntries(
+            Object.entries(data).sort(([, a], [, b]) => b - a)
+        );
+        //console.log(`sortedObj: ${JSON.stringify(sortedObj)}`);
+
+        let keys = Object.keys(sortedObj)
         
+
+        let final_data = [];
+        // Перевод значений в более удобный формат для вывода на странице
         for (let i = 0; i < keys.length; i++) {
+            //console.log(sortedDictionary[i])
+            //return;
             let key = keys[i];
             let sec = data[key];
             let min = 0;
@@ -47,12 +59,13 @@ async function recount_time(data) {
                 }
             }
 
+
             time_str = (hour >0 ? hour + 'h ' : '' ) + (min >0 ? min + 'm ' : '') + sec + 's';
 
-            new_data.push(`${key}: ${time_str}`);
+            final_data.push(`${key}: ${time_str}`);
         }
 
-        resolve(new_data);
+        resolve(final_data);
     })
 }
 
