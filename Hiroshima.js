@@ -59,34 +59,91 @@ async function recount_time(data) {
                 }
             }
 
+            time_str = [(hour >0 ? hour + 'h ' : '' ) + (min >0 ? min + 'm ' : '') + sec + 's'];
 
-            time_str = (hour >0 ? hour + 'h ' : '' ) + (min >0 ? min + 'm ' : '') + sec + 's';
-
-            final_data.push(`${key}: ${time_str}`);
+            final_data.push([`${key}: ${time_str}`, (hour >0 ? 'z' : '' ) + (min >0 ? 'v' : '') + 'o']);
         }
 
         resolve(final_data);
     })
 }
 
+// Вывод данных на страницу
 async function page_elements(data_list) {
     return new Promise((resolve) => {
-        let main = document.getElementById('main');
+        const main = document.getElementById('main');
+        
+        const item_count = data_list.length;
+        let p_id_list = [];
+        let hr_id_list = [];
 
-        for (let i = 0; i < data_list.length; i++) {
-            let el_div = document.createElement('div');
+        for (let i = 0; i < item_count; i++) {
+            
+            let el_div = document.createElement('div');     // создать div
 
-            let el_p = document.createElement('p');
-            el_p.textContent = data_list[i];
-            el_div.appendChild(el_p);
-
-            if (i != (data_list.length -1)) {
-                let el_hr = document.createElement('hr');
-                el_div.appendChild(el_hr);
+            const el_p = document.createElement('p');       // создать p
+            const el_p_id = `el_p-${i}`;                    // создать уник id для p
+            el_p.setAttribute("id", el_p_id);               // добавить p уник id
+            p_id_list.push(el_p_id);                        // добавить р в список объектов
+            el_p.style.opacity = 0;                         // добавить p стиль прозрачность 0
+            el_p.textContent = data_list[i][0];             // добавить в p текст
+            el_div.appendChild(el_p);                       // добавить p в div
+        
+            if (i != (item_count -1)) {
+                const el_hr = document.createElement('hr'); // создать hr
+                const el_hr_id = `el_hr-${i}`;              // создать уник id для hr
+                el_hr.setAttribute("id", el_hr_id);         // добавить hr уник id
+                hr_id_list.push(el_hr_id)                   // добавить hr в список объектов
+                el_hr.style.opacity = 0;                    // добавить hr стиль прозрачность 0
+                el_div.appendChild(el_hr);                  // добавить hr в div
             }
 
             main.appendChild(el_div);
+
+            // добавляет анимацию по очереди 
+            (async function animateElements() {
+                for (let i = 0; i < item_count; i++) {
+                    // анимация р
+                    const el_p = document.getElementById(p_id_list[i]);
+                    el_p.style.opacity = 1;
+                    el_p.classList.add('slide_in_right');
+                
+                    // анимация hr если он существует
+                    if (i != item_count - 1) {
+                        setTimeout(function() {   
+                            const el_hr = document.getElementById(hr_id_list[i]);
+                            el_hr.style.opacity = 1;
+                            el_hr.classList.add('slide_in_right');
+                        }, 50);
+                    }
+
+                    // анимация тени для текста
+                    const timeout = 500;
+                    if (data_list[i][1] == 'svo') {
+                        setTimeout(function() {
+                            el_p.classList.add('shadow_animation_pink');
+                        }, timeout)
+                    }
+                    else if (data_list[i][1] == 'vo') {
+                        setTimeout(function() {
+                            el_p.classList.add('shadow_animation_blue');
+                        }, timeout)
+                    }
+                    else if (data_list[i][1] == 'o') {
+                        setTimeout(function() {
+                            el_p.classList.add('shadow_animation_grey');
+                        }, timeout)
+                    }
+                
+                    await new Promise((r) => setTimeout(r, 100));
+                };
+            })();
         }
+
+
+
+        // через setinterval(100) добавлять класс анимации css по очереди сначала p потом hr
+        // ^ так же р и hr нужно менять цвет с белого на черный 
         resolve();
     })
 }

@@ -158,24 +158,62 @@ async function loop(loop_time) {
     }
 }
 
-let loop_time = 2000;
-// Начало кода и запуск рабского цикла
-console.log('Hi)');
+//let loop_time = 2000;
+//// Начало кода и запуск рабского цикла
+//console.log('Hi)');
+//
+//// Восстановление задач после выхода из сна
+//chrome.runtime.onStartup.addListener(() => {
+//    console.log("Хром запущен, восстановление потужностi...");
+//    setInterval(() => loop(loop_time), loop_time);
+//});
+//
+//// Восстановление при повторном запуске расширения
+//chrome.runtime.onInstalled.addListener(() => {
+//    console.log("Обновление установлено, запуск потужностi...");
+//    setInterval(() => loop(loop_time), loop_time);
+//});
+//
+//// Перезапуск setInterval при выходе из сна
+//chrome.runtime.onSuspendCanceled.addListener(() => {
+//    console.log("Компьютер проснулся. Перезапуск цикла...");
+//    setInterval(() => loop(loop_time), loop_time);
+//});
 
-// Восстановление задач после выхода из сна
+const loop_time = 2000;                             // Интервал в миллисекундах
+const loopTimeMinutes = loop_time / 1000 / 60;      // Интервал в минутах
+
+// Создаем будильник
+function createAlarm() {
+    chrome.alarms.create("loopAlarm", { periodInMinutes: loopTimeMinutes });
+    console.log("Будильник создан с интервалом", loopTimeMinutes * 60, "секунд.");
+}
+
+// Обработка срабатывания будильника
+chrome.alarms.onAlarm.addListener((alarm) => {
+    if (alarm.name === "loopAlarm") {
+        loop(loop_time);
+    }
+});
+
+// Восстановление задач после запуска браузера
 chrome.runtime.onStartup.addListener(() => {
-    console.log("Хром запущен, восстановление потужностi...");
-    setInterval(() => loop(loop_time), loop_time);
+    console.log("Хром запущен, восстановление задач...");
+    createAlarm();
 });
 
-// Восстановление при повторном запуске расширения
+// Восстановление задач при установке/обновлении расширения
 chrome.runtime.onInstalled.addListener(() => {
-    console.log("Обновление установлено, запуск потужностi...");
-    setInterval(() => loop(loop_time), loop_time);
+    console.log("Расширение установлено или обновлено. Запуск задач...");
+    createAlarm();
 });
 
-// Перезапуск setInterval при выходе из сна
+// Перезапуск будильника при выходе из сна
 chrome.runtime.onSuspendCanceled.addListener(() => {
-    console.log("Компьютер проснулся. Перезапуск цикла...");
-    setInterval(() => loop(loop_time), loop_time);
+    console.log("Компьютер проснулся. Перезапуск будильника...");
+    createAlarm();
 });
+
+// Начало выполнения кода
+//console.log("Расширение запущено.");
+//createAlarm();

@@ -1,3 +1,8 @@
+html {
+    overflow: hidden; /* Скрывает полоски прокрутки */
+    margin: 0px 0px 0px 0px;
+}
+
 body {
     margin-top: 0px;
 
@@ -5,36 +10,162 @@ body {
     height: fit-content;
     /*height: 490px;*/
 
-    font-family: 'comic sans ms';
+    /*font-family: 'comic sans ms';*/
+    font-family: 'Roboto Flex', 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Ubuntu, Arial, sans-serif;;
 
     display: flex;
 
     flex-direction: column;
     align-items: center;
-
-    background-color: rgb(21, 21, 21);
 }
 
 header, main {
     width: 100%;
     text-align: center;
 
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
     margin-top: 5px;
+}
 
-    border: 1px solid grey;
-    border-radius: 10px;
-    background-color: rgb(249, 228, 255);
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#app_name, #app_buttons {
+    display: flex;
+    align-items: center;
+}
 
-    background-image: url('noise.png');
-    background-repeat: repeat;
+header h1 { 
+    animation: text_shadow_animation 0.5s ease-in-out forwards;
+}
+#logo {
+    padding-left: 15px;
+    height: 50px;
+    width: 50px;
+}
+#p_app_name {
+    padding-left: 5px;
+    padding-bottom: 5px;
+    font-size: 19px;
+    font-weight: 500;
+}
+#set_logo {
+    margin-right: 15px;
+    height: 30px;
+    width: 30px;
 }
 
 main div p {
-    font-size: 14px;
+    font-size: 16px;
 }
 main div hr {
     width: 80px;
     border: 1px solid rgb(176, 176, 176);
+}
+
+/* перемещение текста справа налево */
+@keyframes slide_in_right {
+    0% {
+        -webkit-transform: translateX(300px);
+                transform: translateX(300px);
+        opacity: 0;
+}
+    100% {
+        -webkit-transform: translateX(0);
+                transform: translateX(0);
+        opacity: 1;
+    }
+}
+  
+.slide_in_right {
+    animation: slide_in_right 0.5s ease-in-out forwards;
+}
+
+/* появление текста из точки в центре */
+@keyframes scale_in_center {
+    0% {
+      -webkit-transform: scale(0);
+              transform: scale(0);
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+      opacity: 1;
+    }
+}
+
+/* анимация появление тени под текстом */
+@keyframes shadow_fade_in {
+    0% {
+      text-shadow: 0 0 5px rgba(0, 0, 0, 0);  /* Тень с нулевой прозрачностью */
+    }
+    100% {
+      text-shadow: 0 0 15px rgba(0, 0, 0, 1);  /* Тень с полной непрозрачностью */
+    }
+}
+  
+.text_shadow_animation {
+    font-size: 40px;
+    color: black;
+    animation: shadow_fade_in 2s ease-in-out forwards;  /* Применение анимации */
+}
+
+/* анимация появления тени у текста (розовая) */
+@keyframes shadow_animation_pink {
+    0% {
+        text-shadow: none;
+    }
+    100% {
+        text-shadow: rgb(140, 0, 255) 0 0 20px, rgb(140, 0, 255) 0 0 20px; /* Тень, которая появляется */
+    }
+}
+
+.shadow_animation_pink {
+    animation: shadow_animation_pink 0.5s forwards; /* Запуск анимации с плавным эффектом */
+}
+/* анимация появления тени у текста (голубая) */
+@keyframes shadow_animation_blue {
+    0% {
+        text-shadow: none;
+    }
+    100% {
+        text-shadow: rgb(0, 183, 255) 0 0 20px, rgb(0, 183, 255) 0 0 20px; /* Тень, которая появляется */
+    }
+}
+
+.shadow_animation_blue {
+    animation: shadow_animation_blue 0.5s forwards; /* Запуск анимации с плавным эффектом */
+}
+/* анимация появления тени у текста (серая) */
+@keyframes shadow_animation_grey {
+    0% {
+        text-shadow: none;
+    }
+    100% {
+        text-shadow: rgb(53, 53, 53) 0 0 20px, rgb(53, 53, 53) 0 0 20px; /* Тень, которая появляется */
+    }
+}
+
+.shadow_animation_grey {
+    animation: shadow_animation_grey 0.5s forwards; /* Запуск анимации с плавным эффектом */
+}
+
+
+
+
+/* Обертка для изображения */
+#set_logo {
+    height: 50px;
+    width: 50px;
+    background-image: url('icons/setting.png'); /* Исходное изображение */
+    background-size: cover; /* Чтобы картинка покрывала весь контейнер */
+}
+
+/* При наведении меняем фон */
+#set_logo:hover {
+    background-image: url('icons/cherniy_stalker.png'); /* Картинка при наведении */
 }
