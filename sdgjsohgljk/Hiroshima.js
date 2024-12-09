@@ -119,7 +119,7 @@ async function page_elements(data_list) {
 
                     // анимация тени для текста
                     const timeout = 500;
-                    if (data_list[i][1] == 'zvo') {
+                    if (data_list[i][1] == 'svo') {
                         setTimeout(function() {
                             el_p.classList.add('shadow_animation_pink');
                         }, timeout)
