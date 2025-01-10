@@ -158,27 +158,6 @@ async function loop(loop_time) {
     }
 }
 
-//let loop_time = 2000;
-//// Начало кода и запуск рабского цикла
-//console.log('Hi)');
-//
-//// Восстановление задач после выхода из сна
-//chrome.runtime.onStartup.addListener(() => {
-//    console.log("Хром запущен, восстановление потужностi...");
-//    setInterval(() => loop(loop_time), loop_time);
-//});
-//
-//// Восстановление при повторном запуске расширения
-//chrome.runtime.onInstalled.addListener(() => {
-//    console.log("Обновление установлено, запуск потужностi...");
-//    setInterval(() => loop(loop_time), loop_time);
-//});
-//
-//// Перезапуск setInterval при выходе из сна
-//chrome.runtime.onSuspendCanceled.addListener(() => {
-//    console.log("Компьютер проснулся. Перезапуск цикла...");
-//    setInterval(() => loop(loop_time), loop_time);
-//});
 
 const loop_time = 2000;                             // Интервал в миллисекундах
 const loopTimeMinutes = loop_time / 1000 / 60;      // Интервал в минутах
@@ -213,7 +192,3 @@ chrome.runtime.onSuspendCanceled.addListener(() => {
     console.log("Компьютер проснулся. Перезапуск будильника...");
     createAlarm();
 });
-
-// Начало выполнения кода
-//console.log("Расширение запущено.");
-//createAlarm();
